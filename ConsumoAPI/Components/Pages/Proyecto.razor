@@ -1,0 +1,65 @@
+﻿@page "/proyectos"
+@using ConsumoAPI.DTO;
+@using ConsumoAPI.Services
+
+<h3>Listado de proyectos</h3>
+@if (proyectos == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Fecha de inicio</th>
+                <th>Fecha de finalizacion</th>
+                <th>Presupuesto</th>
+                <th>Usuario</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var proyecto in proyectos)
+            {
+                <tr>
+                    <td>@proyecto.Nombre</td>
+                    <td>@proyecto.Descripcion</td>
+                    <td>@proyecto.FechaInicio</td>
+                    <td>@proyecto.FechaFin</td>
+                    <td>@proyecto.Presupuesto</td>
+                    <td>@proyecto.UsuarioId</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
+@inject ProyectoService proyectoService
+@code {
+    private List<ProyectoResponse> proyectos;
+    private string errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            proyectos = await proyectoService.GetProyectos();
+
+        }
+
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+
+
+    }
+}

@@ -18,8 +18,6 @@ namespace ConsumoAPI.Services
         //Enviar datos a enpoint Login 
         public async Task<string> Login(UserSession userSession)
         {
-            //usuarioSession.Correo = "chepe@gmail.com";
-            //usuarioSession.Clave = "12345";
             var response = await _httpClient.PostAsJsonAsync("api/usuarios/Login", userSession);
             if (response.IsSuccessStatusCode)
             {
@@ -81,7 +79,5 @@ namespace ConsumoAPI.Services
             _token = null;
             await _localStorage.DeleteAsync("token");
         }
-
-
     }
 }

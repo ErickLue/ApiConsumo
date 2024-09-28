@@ -1,0 +1,68 @@
+﻿@page "/tareas"
+@using ConsumoAPI.DTO;
+@using ConsumoAPI.Services
+
+<h3>Listado de tareas</h3>
+@if (tareas == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Estado tarea</th>
+                <th>Fecha de inicio</th>
+                <th>Fecha de finalizacion</th>
+                <th>Prioridad</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tarea in tareas)
+            {
+                <tr>
+                    <td>@tarea.Nombre</td>
+                    <td>@tarea.Descripcion</td>
+                    <td>@tarea.EstadoTarea</td>
+                    <td>@tarea.FechaInicio</td>
+                    <td>@tarea.FechaFin</td>
+                    <td>@tarea.Prioridad</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
+@inject TareaService tareaService
+@code {
+    private List<TareaResponse> tareas;
+    private string errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            tareas = await tareaService.GetTareas();
+
+        }
+
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+
+
+    }
+}

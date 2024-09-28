@@ -16,7 +16,7 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<InformeService>();
 builder.Services.AddScoped<MiembroEquipoService>();
 builder.Services.AddScoped<ProyectoService>();
-
+builder.Services.AddScoped<TareaService>();
 
 var app = builder.Build();
 

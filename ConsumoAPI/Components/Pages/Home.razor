@@ -29,6 +29,28 @@
     private UserSession userSession = new UserSession();
     private string errorMessage;
 
+    private bool isAuthenticated;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            isAuthenticated = await authService.IsAuthenticated();
+
+            if(isAuthenticated)
+            {
+                navigationManager.NavigateTo("proyectos");
+            }
+
+            else
+            {
+                navigationManager.NavigateTo("/");
+            }
+
+            StateHasChanged();
+        }
+    }
+
     private async Task Login()
     {
         // Verifica los valores de usuarioSession antes de llamar a authServices.Login
@@ -41,7 +63,7 @@
         }
 
         await authService.SetToken(token);
-        navigationManager.NavigateTo("/weather", true);
+        navigationManager.NavigateTo("/proyectos", true);
     }
 
 }

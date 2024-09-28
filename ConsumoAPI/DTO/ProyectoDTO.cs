@@ -9,6 +9,6 @@
         public DateTime? FechaFin { get; set; }
         public decimal? Presupuesto { get; set; }
         public int UsuarioId { get; set; }
-        //public virtual UsuarioResponse Usuario { get; set; } = null!;
+        
     }
 }
