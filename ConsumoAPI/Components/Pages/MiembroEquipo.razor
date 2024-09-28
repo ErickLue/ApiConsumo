@@ -1,0 +1,56 @@
+﻿@page "/miembroEquipos"
+@using ConsumoAPI.DTO;
+@using ConsumoAPI.Services
+
+<h3>Listado de miembros</h3>
+@if (miembroEquipos == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Cargo</th>
+                <th>Usuario</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var miembroEquipo in miembroEquipos)
+            {
+                <tr>
+                    <td>@miembroEquipo.Cargo</td>
+                    <td>@miembroEquipo.UsuarioId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
+@inject MiembroEquipoService miembroEquipoService
+@code {
+    private List<MiembroEquipoResponse> miembroEquipos;
+    private string errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            miembroEquipos = await miembroEquipoService.GetMiembroEquipos();
+
+        }
+
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+
+
+    }
+}

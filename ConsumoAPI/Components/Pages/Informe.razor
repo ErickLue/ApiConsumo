@@ -1,0 +1,65 @@
+﻿@page "/informes"
+@using ConsumoAPI.DTO;
+@using ConsumoAPI.Services
+
+<h3>Informe</h3>
+@if (informes == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Fecha de inicio</th>
+            <th>Fecha de finalizacion</th>
+           @*  <th>Summary</th> *@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var informe in informes)
+        {
+            <tr>
+                <td>@informe.Nombre</td>
+                <td>@informe.Descripcion</td>
+                <td>@informe.FechaInicio</td>
+                <td>@informe.FechaFin</td>
+        @*         <td>@informe.EstadoId</td>
+                <td>@informe.MiembroEquipoId</td>
+                <td>@informe.UsuarioId</td>
+                <td>@informe.ProyectoId</td> *@
+            </tr>
+        }
+     </tbody>
+  </table>
+ }
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
+@inject InformeService informeService
+@code {
+    private List<InformeResponse> informes;
+    private string errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            informes = await informeService.GetInformes();
+
+        }
+
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+
+
+    }
+}
